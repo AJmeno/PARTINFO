@@ -1,14 +1,22 @@
 import streamlit as st
+import pandas as pd
+import plotly.graph_objects as go
 
-# Set the title of the app
-st.set_page_config(page_title="My Streamlit App")
+# Fetch the EURUSD data
+# (Replace this with your data fetching logic)
+df = pd.read_csv('eurusd_data.csv')
 
-# Add a title
-st.title("Welcome to my Streamlit App!")
+# Create the Streamlit app
+st.set_page_config(page_title="EURUSD Dashboard")
+st.title("EURUSD Dashboard")
 
-# Add some text
-st.write("This is a basic Streamlit app.")
-
-# Add a button
-if st.button("Click me!"):
-    st.write("You clicked the button!")
+# Display the EURUSD chart
+fig = go.Figure(data=[go.Candlestick(
+    x=df.index,
+    open=df['Open'],
+    high=df['High'],
+    low=df['Low'],
+    close=df['Close']
+)])
+fig.update_layout(xaxis_rangeslider_visible=False)
+st.plotly_chart(fig, use_container_width=True)
